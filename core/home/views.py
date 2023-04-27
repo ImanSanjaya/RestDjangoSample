@@ -1,5 +1,6 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from django.db import connection
 
 from home.models import Person
 from home.serializer import PeopleSerializer
@@ -16,11 +17,20 @@ def index(request):
         'course_provider' : 'Sitektif Learning Center'
     }
 
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT * FROM home_person")
+        my_objects1 = cursor.fetchall()
+
+    # with connection.cursor() as ambil_data:
+    #     ambil_data.execute("SELECT * FROM django_migrations")
+    #     my_objects2 = ambil_data.fetchall()
+
+
     if request.method == 'GET':
         # (hit kesini -> http://127.0.0.1:8000/api/index?search=Vinka)
-        print(request.GET.get('search'))
+        # print(request.GET.get('search'))
         print('KAMU HIT GET METHOD')
-        return Response(courses)
+        return Response(my_objects1)
     elif request.method == 'POST':
         # (hit kesini -> http://127.0.0.1:8000/api/index/)
         data = request.data

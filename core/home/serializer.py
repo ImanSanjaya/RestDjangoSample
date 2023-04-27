@@ -10,4 +10,3 @@ class PeopleSerializer(serializers.ModelSerializer):
         # digunakan jika ingin memetakan secara seluruh field yang ada di dalam models
         fields = '__all__'
 
-
